@@ -9,14 +9,15 @@ using System.Xml.Linq;
 var builder = WebApplication.CreateBuilder(args);
 
 // Sætter CORS så API'en kan bruges fra andre domæner
-var AllowSomeStuff = "_AllowSomeStuff";
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(name: AllowSomeStuff, builder => {
-        builder.AllowAnyOrigin()
-               .AllowAnyHeader()
-               .AllowAnyMethod();
-    });
+    options.AddPolicy("policy",
+                      policy =>
+                      {
+                          policy.AllowAnyOrigin();
+                          policy.AllowAnyMethod();
+                          policy.AllowAnyHeader();
+                      });
 });
 
 // Tilføj DbContext factory som service.
@@ -34,7 +35,7 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.UseHttpsRedirection();
-app.UseCors(AllowSomeStuff);
+app.UseCors("policy");
 
 // Middlware der kører før hver request. Sætter ContentType for alle responses til "JSON".
 app.Use(async (context, next) =>
