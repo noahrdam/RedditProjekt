@@ -8,39 +8,6 @@
 @inject IConfiguration Configuration
 @inject NavigationManager NavigationManager
 
-@* @if (posts == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <table>
-        <tr>
-            <th>Title</th>
-            <th>Content</th>
-            <th colspan="3">Votes</th>
-        </tr>
-        @foreach (var post in posts)
-        {
-            <tr>
-                <!--
-                    These a href links will match the route in the page 'PostItem.razor'.
-                    The route is defined as "/post/{id}" and the id is the post id.
-                -->
-                <td><a href="/post/@post.PostId">@post.Title</a></td>
-                <td>@post.Content</td>
-                <td>@(post.Upvotes - post.Downvotes)</td>
-                <td><button @onclick="() => Upvote(post.PostId)">Upvote</button></td>
-                <td><button @onclick="() => Downvote(post.PostId)">Downvote</button></td>
-            </tr>
-
-            <div></div>
-        }
-    </table>
-
-    <br/>
-} *@
-
 <style>
 .post-holder {
 		transition: transform 0.2s;
