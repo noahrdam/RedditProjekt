@@ -1,7 +1,7 @@
 using System.Net.Http.Json;
 using System.Text.Json;
 using Microsoft.Extensions.Configuration;
-
+using Microsoft.Extensions.Options;
 using RedditAPP.Shared.Models;
 
 namespace RedditAPP.Data;
@@ -17,6 +17,14 @@ public class ApiService
         this.http = http;
         this.configuration = configuration;
         this.baseAPI = configuration["base_api"];
+    }
+
+    public async Task<bool> CreatePost(Post newpost)
+    {
+        string url = $"{baseAPI}posts/";
+        var response = await http.PostAsJsonAsync(url, newpost);
+
+        return response.IsSuccessStatusCode;
     }
 
     public async Task<Post[]> GetPosts()

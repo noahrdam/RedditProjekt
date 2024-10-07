@@ -67,6 +67,7 @@ else
     protected override async Task OnInitializedAsync()
     {
         Post = await apiService.GetPost(PostId);
+        
     }
     private async void Upvote(long id)
     {

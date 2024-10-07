@@ -1,12 +1,14 @@
 ﻿@inherits LayoutComponentBase
+@inject NavigationManager NavigationManager
 
 <div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
 
     <main>
         <div class="top-row px-4">
+            <button class="create-button" @onclick = "HandleCreatePost">
+                <span class="plus-sign">+</span> Create
+            </button>
+
             <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
         </div>
 
@@ -15,3 +17,11 @@
         </article>
     </main>
 </div>
+
+@code {
+	private void HandleCreatePost()
+	{
+		NavigationManager.NavigateTo("/createpost");
+	}
+}
+```

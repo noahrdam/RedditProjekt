@@ -1,0 +1,46 @@
+﻿@page "/createpost"
+@using RedditAPP.Data
+@using RedditAPP.Shared.Models
+@inject ApiService apiService
+@inject NavigationManager NavigationManager
+
+
+<div class="container my-5">
+    <h3 class="mb-4">Create Post</h3>
+    <div class="mb-4">
+        <div class="form-group">
+            <input type="text" class="form-control form-control-lg mb-2" placeholder="Reddit Username" @bind="post.AuthorName" />
+        </div>
+
+        <div class="form-group">
+            <input type="text" class="form-control form-control-lg mb-2" placeholder="Title" @bind="post.Title" />
+            <small class="text-muted float-end">0/300</small>
+        </div>
+
+        <div class="form-group">
+            <textarea class="form-control" rows="6" placeholder="Body" @bind="post.Content"></textarea>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center border-top pt-3">
+        <button class="btn btn-primary" @onclick="HandleCreatePost">Post</button>
+    </div>
+</div>
+
+@code {
+    private Post post = new Post();
+
+    private async Task HandleCreatePost()
+    {
+        bool isCreated = await apiService.CreatePost(post);
+
+        if (isCreated)
+        {
+            NavigationManager.NavigateTo("/");
+        }
+        else
+        {
+            Console.WriteLine("Failed to create the post.");
+        }
+    }
+}
