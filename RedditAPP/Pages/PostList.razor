@@ -6,8 +6,9 @@
 
 @using Microsoft.Extensions.Configuration
 @inject IConfiguration Configuration
+@inject NavigationManager NavigationManager
 
-@if (posts == null)
+@* @if (posts == null)
 {
     <p><em>Loading...</em></p>
 }
@@ -22,7 +23,7 @@ else
         @foreach (var post in posts)
         {
             <tr>
-                <!-- 
+                <!--
                     These a href links will match the route in the page 'PostItem.razor'.
                     The route is defined as "/post/{id}" and the id is the post id.
                 -->
@@ -32,11 +33,65 @@ else
                 <td><button @onclick="() => Upvote(post.PostId)">Upvote</button></td>
                 <td><button @onclick="() => Downvote(post.PostId)">Downvote</button></td>
             </tr>
+
+            <div></div>
         }
     </table>
 
     <br/>
+} *@
+
+<style>
+.post-holder {
+		transition: transform 0.2s;
+	}
+
+	.post-holder:hover {
+		transform: scale(1.02);
+	}
+</style>
+
+@if (posts == null)
+{
+    <div class="d-flex justify-content-center my-5">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
 }
+else
+{
+    <div class="container my-5">
+        @foreach (var post in posts)
+        {
+            <div class="card mb-4 shadow-sm post-holder" style="cursor: pointer;" @onclick="() => NavigateToPost(post.PostId)">
+                <div class="card-header">
+                    <h6 class="card-subtitle mb-2 text-muted">Posted by @post.AuthorName</h6>
+                    <h6 class="text-muted">@post.PostDate.ToString("dd/MM/yyyy")</h6>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">@post.Title</h5>
+                    <p class="card-text">@post.Content</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <button class="btn btn-sm btn-outline-primary ms-2" @onclick="() => NavigateToPost(post.PostId)">
+                                <i class="bi bi-chat"></i> @(post.Comments.Count()) Comments
+                            </button>
+                            <button class="btn btn-sm btn-outline-success" @onclick:stopPropagation="true" @onclick="() => Upvote(post.PostId)">
+                                Upvote
+                            </button>
+                            <button class="btn btn-sm btn-outline-danger ms-2" @onclick:stopPropagation="true" @onclick="() => Downvote(post.PostId)">
+                                Downvote
+                            </button>
+                        </div>
+                        <small class="text-muted">@(post.Upvotes - post.Downvotes) Votes</small>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+
 
 @code {
     private Post[]? posts;
@@ -45,6 +100,11 @@ else
     protected override async Task OnInitializedAsync()
     {
         posts = await apiService.GetPosts();
+    }
+
+    private void NavigateToPost(int postId)
+    {
+        NavigationManager.NavigateTo($"/post/{postId}");
     }
 
     private async void Upvote(int id)
@@ -57,3 +117,8 @@ else
         Console.WriteLine("Not implemented 😪");
     }
 }
+
+
+
+
+
