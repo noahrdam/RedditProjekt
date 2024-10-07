@@ -4,6 +4,7 @@
 @using RedditAPP.Shared.Models;
 @inject ApiService apiService
 
+
 @using Microsoft.Extensions.Configuration
 @inject IConfiguration Configuration
 
@@ -45,6 +46,7 @@ else
     protected override async Task OnInitializedAsync()
     {
         posts = await apiService.GetPosts();
+        apiService.RefreshRequired += this.RefreshMe;
     }
 
     private async void Upvote(int id)
@@ -54,6 +56,13 @@ else
 
     private async void Downvote(int id)
     {
-        Console.WriteLine("Not implemented 😪");
+        var updatedPost = await apiService.DownvotePost(id);
+    }
+
+    private async void RefreshMe()
+    {
+        posts = await apiService.GetPosts();
+        StateHasChanged();
+        Console.WriteLine("Refreshed");
     }
 }

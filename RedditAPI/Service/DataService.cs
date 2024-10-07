@@ -85,7 +85,7 @@ namespace RedditAPI.Service
 			return db.Posts.Include(p => p.Comments).FirstOrDefault(p => p.PostId == id);
 		}
 
-		public Comment GetComment(int postId, int commentId)
+		public Comment GetComment(int postId, long commentId)
 		{
 			Post post = db.Posts.Include(p => p.Comments).FirstOrDefault(p => p.PostId == postId);
 			if (post != null)
@@ -120,7 +120,7 @@ namespace RedditAPI.Service
 			return false;  // Post not found
 		}
 
-		public bool UpVoteComment(int postId, int commentId)
+		public bool UpVoteComment(int postId, long commentId)
 		{
 			Post post = db.Posts.Include(p => p.Comments).FirstOrDefault(p => p.PostId == postId);
 			if (post != null)
@@ -138,7 +138,7 @@ namespace RedditAPI.Service
 			return false;
 		}
 
-		public bool DownVoteComment(int postId, int commentId)
+		public bool DownVoteComment(int postId, long commentId)
 		{
 			Post post = db.Posts.Include(p => p.Comments).FirstOrDefault(p => p.PostId == postId);
 			if (post != null)
@@ -146,7 +146,7 @@ namespace RedditAPI.Service
 				Comment comment = post.Comments.FirstOrDefault(c => c.CommentId == commentId);
 				if (comment != null)
 				{
-					comment.Downvotes--;
+					comment.Upvotes--;
 					db.SaveChanges();
 					return true;
 				}
