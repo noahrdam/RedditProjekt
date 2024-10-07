@@ -8,15 +8,7 @@
 @inject IConfiguration Configuration
 @inject NavigationManager NavigationManager
 
-<style>
-.post-holder {
-		transition: transform 0.2s;
-	}
 
-	.post-holder:hover {
-		transform: scale(1.02);
-	}
-</style>
 
 @if (posts == null)
 {
@@ -31,7 +23,7 @@ else
     <div class="container my-5">
         @foreach (var post in posts)
         {
-            <div class="card mb-4 shadow-sm post-holder" style="cursor: pointer;" @onclick="() => NavigateToPost(post.PostId)">
+            <div class="card mb-4 shadow-sm post-holder" >
                 <div class="card-header">
                     <h6 class="card-subtitle mb-2 text-muted">Posted by @post.AuthorName</h6>
                     <h6 class="text-muted">@post.PostDate.ToString("dd/MM/yyyy")</h6>
@@ -44,10 +36,10 @@ else
                             <button class="btn btn-sm btn-outline-primary ms-2" @onclick="() => NavigateToPost(post.PostId)">
                                 <i class="bi bi-chat"></i> @(post.Comments.Count()) Comments
                             </button>
-                            <button class="btn btn-sm btn-outline-success" @onclick:stopPropagation="true" @onclick="() => Upvote(post.PostId)">
+                            <button class="btn btn-sm btn-outline-success"  @onclick="() => Upvote(post.PostId)">
                                 Upvote
                             </button>
-                            <button class="btn btn-sm btn-outline-danger ms-2" @onclick:stopPropagation="true" @onclick="() => Downvote(post.PostId)">
+                            <button class="btn btn-sm btn-outline-danger ms-2"  @onclick="() => Downvote(post.PostId)">
                                 Downvote
                             </button>
                         </div>
