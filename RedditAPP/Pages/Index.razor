@@ -1,18 +1,36 @@
-﻿@page "/"
+﻿@inject IJSRuntime JS
+@page "/"
 
 <PageTitle>Kreddit</PageTitle>
 
-<h1>Welcome to Kreddit</h1>
+<div class="front-page-container">
+    <div class="front-page-text">
+        <h1>Welcome to Kreddit</h1>       
+        <p>Below you can read the most recent posts.</p>
+        <a href="javascript:void(0)" class="btn btn-primary" @onclick="() => ScrollToPosts()">Explore Now</a>
 
-<p>Below you can read the most recent posts.</p>
+    </div>
+</div>
+
+
+
+
 
 <PostList></PostList>
 
-<h3>Notes about this app:</h3>
-<ul>
-    <li>You need to reload browser to reload data.</li>
-    <li>Dates are not implemented.</li>
-    <li>Only upvote on posts work. No other voting works yet.</li>
-    <li>Cannot create new posts, only new comments.</li>
-    <li>No user selection. User is hardcoded (Mads).</li>
-</ul>
+<footer class="app-footer">
+    <div class="container">
+        <h3>Notes about this app:</h3>
+        <ul>
+            <li>No user selection. User is hardcoded (Mads).</li>
+        </ul>
+    </div>
+</footer>
+
+
+@code {
+    private async Task ScrollToPosts()
+    {
+        await JS.InvokeVoidAsync("scrollToPosts");
+    }
+}

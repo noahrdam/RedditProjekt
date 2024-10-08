@@ -1,1 +1,104 @@
-﻿
+﻿.post-holder {
+    transition: box-shadow 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+    .post-holder:hover {
+        box-shadow: 0 0 10px rgba(128, 128, 128, 0.8); 
+    }
+
+.front-page-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70vh; /* Full viewport height for a full-page background */
+    background-image: url('redditanimation.gif');
+    background-size: contain; /* Set the width to 80% of the container's width */
+    background-position: center -150px;
+    background-repeat: no-repeat;
+    text-align: center;
+    padding: 0 20px;
+    border: 5px solid #e67300; /* Adds a border around the container */
+    border-radius: 10px; /* Optional: Rounded corners */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Optional: Adds a shadow for a 3D effect */
+}
+
+.front-page-text {
+    background-color: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transform: translateY(50px); /* Move the box up by 50px */
+}
+
+    /* Style for the heading */
+    .front-page-text h1 {
+        font-size: 3rem; /* Large heading */
+        font-weight: bold; /* Bold for emphasis */
+        color: #343a40; /* Dark grey color */
+        margin-bottom: 20px;
+    }
+
+    /* Style for the paragraph */
+    .front-page-text p {
+        font-size: 1.25rem; /* Slightly larger text */
+        color: #6c757d; /* Grey color for subtext */
+        margin-bottom: 30px;
+    }
+
+    .front-page-text .btn {
+        padding: 10px 20px;
+        font-size: 1.1rem;
+        border-radius: 5px;
+        background-color: #ff7f00; /* Orange color */
+        color: white; /* White text */
+        border: none; /* Remove the border */
+        transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for hover */
+    }
+
+        /* Add a hover effect for the button */
+        .front-page-text .btn:hover {
+            background-color: #e67300; /* Darker shade of orange */
+            box-shadow: 0 3px 10px rgba(255, 127, 0, 0.3); /* Orange shadow effect */
+        }
+
+/* Footer styling */
+.app-footer {
+    margin-top: 250px;
+    background-color: #343a40; /* Dark background for contrast */
+    color: white; /* White text for visibility */
+    padding: 20px 0; /* Space around the content */
+    text-align: left; /* Center the content */
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+    .app-footer h3 {
+        margin-bottom: 15px;
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+
+    .app-footer ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+        .app-footer ul li {
+            margin-bottom: 10px;
+        }
+
+    .app-footer a {
+        color: white; /* Ensure links are white */
+        text-decoration: underline;
+    }
+
+        .app-footer a:hover {
+            color: #ff7f00; /* Change link color on hover */
+        }
+
+html {
+    scroll-behavior: smooth;
+}
+

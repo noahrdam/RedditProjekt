@@ -21,10 +21,10 @@
 }
 else
 {
-    <div class="container my-5">
+    <div id="posts" class="container my-5" >
         @foreach (var post in posts)
         {
-            <div class="card mb-4 shadow-sm post-holder" >
+            <div class="card mb-4 post-holder" @onclick="() => NavigateToPost(post.PostId)">
                 <div class="card-header">
                     <h6 class="card-subtitle mb-2 text-muted">Posted by @post.AuthorName</h6>
                     <h6 class="text-muted">@post.PostDate.ToString("dd/MM/yyyy")</h6>
@@ -34,14 +34,17 @@ else
                     <p class="card-text">@post.Content</p>
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <button class="btn btn-sm btn-outline-primary ms-2" @onclick="() => NavigateToPost(post.PostId)">
-                                <i class="bi bi-chat"></i> @(post.Comments.Count()) Comments
+                            <button class="btn btn-sm btn-outline-primary ms-2"
+                            @onclick:stopPropagation @onclick="() => NavigateToPost(post.PostId)">
+                                <i class="bi bi-chat-fill"></i> @(post.Comments.Count())
                             </button>
-                            <button class="btn btn-sm btn-outline-success"  @onclick="() => Upvote(post.PostId)">
-                                Upvote
+                            <button class="btn btn-sm btn-outline-success"
+                            @onclick:stopPropagation @onclick="() => Upvote(post.PostId)">
+                                <i class="bi bi-hand-thumbs-up-fill"></i>
                             </button>
-                            <button class="btn btn-sm btn-outline-danger ms-2"  @onclick="() => Downvote(post.PostId)">
-                                Downvote
+                            <button class="btn btn-sm btn-outline-danger ms-2"
+                            @onclick:stopPropagation @onclick="() => Downvote(post.PostId)">
+                                <i class="bi bi-hand-thumbs-down-fill"></i>
                             </button>
                         </div>
                         <small class="text-muted">@(post.Upvotes - post.Downvotes) Votes</small>
