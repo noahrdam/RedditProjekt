@@ -46,8 +46,8 @@ else
                 <td>@comment.AuthorName</td>
                 <td>@comment.Content</td>
                 <td>@(comment.Upvotes - comment.Downvotes)</td>
-                <td><button @onclick="() => Upvote(comment.CommentId)">Upvote</button></td>
-                <td><button @onclick="() => Downvote(comment.CommentId)">Downvote</button></td>
+                <td><button @onclick="() => Upvote(Post.PostId, comment.CommentId)">Upvote</button></td>
+                <td><button @onclick="() => Downvote(Post.PostId, comment.CommentId)">Downvote</button></td>
             </tr>
         }
     </table>
@@ -63,18 +63,28 @@ else
     public string Id { get; set; }
     public int PostId { get { return int.Parse(Id); } }
     public Post Post { get; set; }
+    
 
     protected override async Task OnInitializedAsync()
     {
         Post = await apiService.GetPost(PostId);
+        apiService.RefreshRequired += this.RefreshMe;
+
     }
-    private async void Upvote(long id)
+    private async void Upvote(int postId, long commentId)
     {
-        Console.WriteLine("Not implemented 😪");
+        await apiService.UpvoteComment(postId, commentId);
     }
 
-    private async void Downvote(long id)
+    private async void Downvote(int postId, long commentId)
     {
-        Console.WriteLine("Not implemented 😪");
+        await apiService.DownvoteComment(postId, commentId);
+    }
+
+    private async void RefreshMe()
+    {
+        Post = await apiService.GetPost(PostId);
+        StateHasChanged();
+        Console.WriteLine("Refreshed"); 
     }
 }

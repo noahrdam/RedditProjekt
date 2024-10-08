@@ -81,7 +81,7 @@ app.MapPut("/api/posts/{id}/downvote", (DataService service, int id) =>
     return Results.NotFound(new { message = "Post not found" });
 });
 
-app.MapPut("/api/posts/{postid}/comments/{commentid}/upvote", (DataService service, int postid, int commentid) =>
+app.MapPut("/api/posts/{postid}/comments/{commentid}/upvote", (DataService service, int postid, long commentid) =>
 {
     bool success = service.UpVoteComment(postid, commentid);
     if (success)
@@ -90,7 +90,7 @@ app.MapPut("/api/posts/{postid}/comments/{commentid}/upvote", (DataService servi
     }
     return Results.NotFound(new { message = "Post or comment not found" });
 });
-app.MapPut("/api/posts/{postid}/comments/{commentid}/downvote", (DataService service, int postid, int commentid) =>
+app.MapPut("/api/posts/{postid}/comments/{commentid}/downvote", (DataService service, int postid, long commentid) =>
 {
     bool success = service.DownVoteComment(postid, commentid);
     if (success)
