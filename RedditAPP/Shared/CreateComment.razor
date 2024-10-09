@@ -1,5 +1,6 @@
 @using RedditAPP.Data;
 @inject ApiService apiService
+@using RedditAPP.Shared.Models
 
 <div>
     <br/>
@@ -22,6 +23,6 @@
         }
         // TODO: Provide list of users from dropdown, or maybe just convert
         // from username to UserId
-        await apiService.CreateComment(content, PostId, 2); // UserId: 2
+        await apiService.CreateComment(content, PostId, "Harry"); // UserId: 2
     }
 }

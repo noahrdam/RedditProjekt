@@ -105,12 +105,14 @@ app.MapPost("/api/posts", (DataService service, Post post) =>
 {
     return service.AddPost(post);
 });
-app.MapPost("/api/posts/{id}/comments", (DataService service, int postId, Comment comment) =>
+app.MapPost("/api/posts/{postId}/comments", (DataService service, int postId, CommentDTO comment) =>
 {
-    return service.AddComment(postId, comment);
+    return service.AddComment(postId, comment.Content, comment.author);
 });
 
 app.Run();
+
+public record CommentDTO(string Content, string author);
 
 
 

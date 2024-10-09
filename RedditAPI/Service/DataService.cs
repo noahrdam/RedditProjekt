@@ -155,18 +155,22 @@ namespace RedditAPI.Service
 			return false;
 		}
 
-		public string AddComment(int postId, Comment comment)
-		{
+		public Comment AddComment(int postId, string content, string author) {		
 			Post post = db.Posts.FirstOrDefault(p => p.PostId == postId);
 			if (post != null)
 			{
-				post.Comments.Add(comment);
+				post.Comments.Add(new Comment()
+				{
+                    Content = content,
+                    CommentDate = DateTime.Now,
+                    AuthorName = author
+                });
 				db.SaveChanges();
-				return "Comment added";
+				return post.Comments.Last();
 			}
 			else
 			{
-				return "Post not found";
+				return null;
 			}
 		}
 

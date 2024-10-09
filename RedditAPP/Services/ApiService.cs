@@ -43,21 +43,25 @@ namespace RedditAPP.Data
         }
 
 
-        public async Task<Comment> CreateComment(string content, int postId, int userId)
+        public async Task<Comment> CreateComment(string content, int postId, string author)
         {
             string url = $"{baseAPI}posts/{postId}/comments";
 
             // Post JSON to API, save the HttpResponseMessage
-            HttpResponseMessage msg = await http.PostAsJsonAsync(url, new { content, userId });
+            HttpResponseMessage msg = await http.PostAsJsonAsync(url, new { content, author });
 
             // Get the JSON string from the response
             string json = msg.Content.ReadAsStringAsync().Result;
+
+            Console.WriteLine(json);
 
             // Deserialize the JSON string to a Comment object
             Comment? newComment = JsonSerializer.Deserialize<Comment>(json, new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true // Ignore case when matching JSON properties to C# properties 
             });
+
+            Console.WriteLine(newComment);
 
             // Return the new comment 
             return newComment;
