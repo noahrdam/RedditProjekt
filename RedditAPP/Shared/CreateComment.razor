@@ -1,40 +1,55 @@
-@using RedditAPP.Data;
+@using RedditAPP.Data
 @inject ApiService apiService
 @using RedditAPP.Shared.Models
 
 <div>
-    <br/>
+    <br />
     <h3>Write a comment</h3>
-    <input placeholder="Content" type="input" id="content" @bind-value="content"/>
-    <button id="createPostButton" type="button" @onclick="CreateNewComment">Post comment</button>
+    <!-- Input for the author's name -->
+    <input placeholder="Author" type="input" id="author" @bind-value="author" class="form-control" />
+    <br />
+    <!-- Input for the comment content -->
+    <input placeholder="Content" type="input" id="content" @bind-value="content" class="form-control" />
+    <br />
+    <button id="createCommentButton" type="button" @onclick="CreateNewComment" class="btn btn-primary">Post comment</button>
 </div>
 
 @code {
-
     // PostId is passed in from the parent component. See how in PostItem.razor.
-    [Parameter]
-    public int PostId { get; set; }
+    [Parameter] public int PostId { get; set; }
+
     private string? content;
+    private string? author;
+
     public Post Post { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         Post = await apiService.GetPost(PostId);
         apiService.RefreshRequired += this.RefreshMe;
-
     }
 
+    // Method to create a new comment
     private async void CreateNewComment()
     {
-        if (content == null)
+        // Check if the content and author are not empty
+        if (!string.IsNullOrEmpty(content) && !string.IsNullOrEmpty(author))
         {
-            return;
+            // Call the ApiService to create the comment
+            await apiService.CreateComment(content, PostId, author);
+
+            // Clear the input fields after submission
+            content = string.Empty;
+            author = string.Empty;
         }
-        // TODO: Provide list of users from dropdown, or maybe just convert
-        // from username to UserId
-        await apiService.CreateComment(content, PostId, "Harry"); // UserId: 2
+        else
+        {
+            // You can handle validation here (e.g., show an error message)
+            Console.WriteLine("Content or Author is empty!");
+        }
     }
 
+    // Method to refresh the page after a comment is added
     private async void RefreshMe()
     {
         Post = await apiService.GetPost(PostId);
