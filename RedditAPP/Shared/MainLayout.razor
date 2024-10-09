@@ -1,4 +1,5 @@
 ﻿@inherits LayoutComponentBase
+@inject NavigationManager NavigationManager
 
 <div class="page">
     <main>
@@ -17,3 +18,11 @@
         </article>
     </main>
 </div>
+
+@code {
+	private void HandleCreatePost()
+	{
+		NavigationManager.NavigateTo("/createpost");
+	}
+}
+```

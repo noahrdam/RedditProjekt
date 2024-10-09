@@ -3,6 +3,7 @@ using System.Text.Json;
 using Microsoft.Extensions.Configuration;
 using RedditAPP.Shared.Models;
 using System;
+using System.Threading.Tasks;
 
 namespace RedditAPP.Data
 {
@@ -22,6 +23,13 @@ namespace RedditAPP.Data
             this.baseAPI = configuration["base_api"];
         }
 
+        public async Task<bool> CreatePost(Post newpost)
+        {
+            string url = $"{baseAPI}posts/";
+            var response = await http.PostAsJsonAsync(url, newpost);
+
+            return response.IsSuccessStatusCode;
+        }
         public async Task<Post[]> GetPosts()
         {
             string url = $"{baseAPI}posts/";
