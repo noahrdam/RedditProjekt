@@ -63,6 +63,9 @@ namespace RedditAPP.Data
 
             Console.WriteLine(newComment);
 
+            // Trigger the refresh event
+            OnRefreshRequired();
+
             // Return the new comment 
             return newComment;
         }

@@ -15,6 +15,15 @@
     [Parameter]
     public int PostId { get; set; }
     private string? content;
+    public Post Post { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Post = await apiService.GetPost(PostId);
+        apiService.RefreshRequired += this.RefreshMe;
+
+    }
+
     private async void CreateNewComment()
     {
         if (content == null)
@@ -24,5 +33,12 @@
         // TODO: Provide list of users from dropdown, or maybe just convert
         // from username to UserId
         await apiService.CreateComment(content, PostId, "Harry"); // UserId: 2
+    }
+
+    private async void RefreshMe()
+    {
+        Post = await apiService.GetPost(PostId);
+        StateHasChanged();
+        Console.WriteLine("Refreshed");
     }
 }
