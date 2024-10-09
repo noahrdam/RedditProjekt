@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34525.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedditAPI", "RedditAPI\RedditAPI.csproj", "{D76312F9-2AF5-471E-BCE1-78223150B046}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RedditAPI", "RedditAPI\RedditAPI.csproj", "{D76312F9-2AF5-471E-BCE1-78223150B046}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "shared", "shared\shared.csproj", "{00B2563B-1DE0-4D7B-AA16-38A74768C8AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "shared", "shared\shared.csproj", "{00B2563B-1DE0-4D7B-AA16-38A74768C8AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedditAPP", "RedditAPP\RedditAPP.csproj", "{AF14407B-2ACC-448E-B0EB-B0D08D30A377}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RedditAPP", "RedditAPP\RedditAPP.csproj", "{AF14407B-2ACC-448E-B0EB-B0D08D30A377}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
