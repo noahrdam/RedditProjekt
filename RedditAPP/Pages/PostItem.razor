@@ -10,52 +10,76 @@ See how the links are made in 'PostList.razor'.
 
 <PageTitle>Kreddit</PageTitle>
 
-<style>
-div.contents {
-  background-color: #f2f0eb;
-  width: 600px;
-  border: 2px solid #452d3d;
-  padding: 10px;
-  margin-top: 20px;
-}
-</style>
-
 @if (Post == null)
 {
-    <p><em>Loading...</em></p>
+    <div class="d-flex justify-content-center my-5">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
 }
 else
 {
-    <div class="contents">
-        <h4>@Post.Title</h4>
-        <p><strong>User: @Post.AuthorName, Votes: @(Post.Upvotes - Post.Downvotes)</strong></p>
-        <p>@Post.Content</p>
-    </div>
+    <div class="container my-5">
+        <div class="card mb-4 shadow-sm post-holder">
+            <div class="card-header">
+                <h6 class="card-subtitle mb-2 text-muted">Posted by @Post.AuthorName</h6>
+                <h6 class="text-muted">@Post.PostDate.ToString("dd/MM/yyyy")</h6>
+            </div>
+            <div class="card-body">
+                <h4 class="card-title">@Post.Title</h4>
+                <p class="card-text">@Post.Content</p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <button class="btn btn-sm btn-outline-primary ms-2">
+                            <i class="bi bi-chat"></i> @(Post.Comments.Count) Comments
+                        </button>
+                        <button class="btn btn-sm btn-outline-success" @onclick="() => UpvotePost(Post.PostId)">
+                            Upvote
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger ms-2" @onclick="() => DownvotePost(Post.PostId)">
+                            Downvote
+                        </button>
+                    </div>
+                    <small class="text-muted">@(Post.Upvotes - Post.Downvotes) Votes</small>
+                </div>
+            </div>
+        </div>
 
-    <div class="contents">
-    <h4>Comments</h4>
-    <table>
-        <tr>
-            <th>User</th>
-            <th>Comment</th>
-            <th colspan="3">Votes</th>
-        </tr>
-        @foreach (var comment in Post.Comments)
-        {
-            <tr>
-                <td>@comment.AuthorName</td>
-                <td>@comment.Content</td>
-                <td>@(comment.Upvotes - comment.Downvotes)</td>
-                <td><button @onclick="() => Upvote(Post.PostId, comment.CommentId)">Upvote</button></td>
-                <td><button @onclick="() => Downvote(Post.PostId, comment.CommentId)">Downvote</button></td>
-            </tr>
-        }
-    </table>
-    </div>
+        <div class="comments-container">
+            <h4>Comments</h4>
+            @if (Post.Comments.Count > 0)
+            {
+                @foreach (var comment in Post.Comments)
+                {
+                    <div class="card mb-3 shadow-sm">
+                        <div class="card-body">
+                            <h6 class="card-subtitle mb-2 text-muted">Comment by @comment.AuthorName</h6>
+                            <p class="card-text">@comment.Content</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <button class="btn btn-sm btn-outline-success" @onclick="() => UpvoteComment(Post.PostId, comment.CommentId)">
+                                        <i class="bi bi-hand-thumbs-up"></i> Upvote
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-danger ms-2" @onclick="() => DownvoteComment(Post.PostId, comment.CommentId)">
+                                        <i class="bi bi-hand-thumbs-down"></i> Downvote
+                                    </button>
+                                </div>
+                                <small class="text-muted">@(comment.Upvotes - comment.Downvotes) Votes</small>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <p>No comments yet. Be the first to comment!</p>
+            }
+        </div>
 
-    <!-- This demonstrates how to pass in PostId to the component 'CreateComment'. See how 
-         it is used in the file CreateComment.razor -->
-    <CreateComment PostId=@PostId></CreateComment>
+        <!-- Create Comment Component -->
+        <CreateComment PostId="@PostId"></CreateComment>
+    </div>
 }
 
 @code {
@@ -71,12 +95,23 @@ else
         apiService.RefreshRequired += this.RefreshMe;
 
     }
-    private async void Upvote(int postId, long commentId)
+
+    private async void UpvotePost(int id)
+    {
+        var updatedPost = await apiService.UpvotePost(id);
+    }
+
+    private async void DownvotePost(int id)
+    {
+        var updatedPost = await apiService.DownvotePost(id);
+    }
+
+    private async void UpvoteComment(int postId, long commentId)
     {
         await apiService.UpvoteComment(postId, commentId);
     }
 
-    private async void Downvote(int postId, long commentId)
+    private async void DownvoteComment(int postId, long commentId)
     {
         await apiService.DownvoteComment(postId, commentId);
     }
